@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prediksi Spaceman</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      color: #fff;
+
+      /* Background gambar astronot + efek cahaya */
+      background: 
+        linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.1)), 
+        url("https://files.catbox.moe/fqusrl.jpg") no-repeat center center fixed;
+      background-size: cover;
+
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Layer glow */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.35), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    h1, .subjudul, .prediksi-box, button, .perhatian {
+      position: relative;
+      z-index: 2; /* pastikan di atas overlay */
+    }
+
+    h1 {
+      margin-top: 30px;
+      font-size: 26px;
+      text-shadow: 0 0 10px #00ffcc, 0 0 20px #0099ff;
+    }
+
+    .subjudul {
+      font-size: 13px;
+      color: #ccc;
+      margin-top: 5px;
+    }
+
+    .prediksi-box {
+      background: rgba(30, 30, 63, 0.8);
+      border-radius: 50%;
+      width: 80vw; height: 80vw;
+      max-width: 300px; max-height: 300px;
+      margin: 30px auto;
+      box-shadow: 0 0 20px #00ffcc, 0 0 40px #00ffff;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+    }
+
+    .angka-prediksi {
+      font-size: 40px;
+      font-weight: bold;
+      color: #00ffcc;
+      text-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffff;
+      transition: opacity 0.3s ease;
+    }
+
+    .jam { margin-top: 10px; font-size: 16px; color: #aaa; }
+    .rekomendasi { margin-top: 10px; font-size: 14px; color: #0f0; }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 28px;
+      background: linear-gradient(90deg, #00ffcc, #00aaff);
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      color: #000;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 0 12px #00ffcc;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00ffff;
+    }
+
+    .perhatian {
+      margin-top: 25px;
+      font-size: 13px;
+      color: #ffcc00;
+      text-align: left;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: rgba(46, 46, 46, 0.85);
+      padding: 15px;
+      border-radius: 12px;
+      line-height: 1.6em;
+    }
+  </style>
+</head>
+<body>
+  <h1>SPACEMAN PREDICTOR V8</h1>
+  <div class="subjudul">BOT PREDICTOR GACOR 🚀</div>
+
+  <div class="prediksi-box">
+    <div class="angka-prediksi" id="prediksi">--.--x</div>
+    <div class="jam" id="jam">Waktu: --:--:--</div>
+    <div class="rekomendasi" id="rekomendasi">🔁 Hasil simulasi...</div>
+  </div>
+
+  <button id="btnUpdate">🔁 Update Prediksi</button>
+
+  <div class="perhatian">
+    ⚠️ <strong>! PERHATIAN !</strong><br>
+    1. Pastikan anda <strong>SUDAH MENDAFTAR</strong> dan mengisi saldo akun di situs yang sudah kami rekomendasikan SEBELUM MENGGUNAKAN BOT INI<br>
+    2. Pastikan koneksi internet anda stabil selama proses prediksi<br>
+    3. Gunakan perangkat dengan spesifikasi memadai untuk hasil optimal<br>
+    4. Jangan tutup browser/apk selama proses analisis berlangsung<br>
+    Support Telegram : @youacti<br>
+    : @channelrilzy
+  </div>
+
+  <script>
+    function generateRandomPrediction() {
+      const base = Math.random();
+      const result = (base * 10 + 1).toFixed(2);
+      return result + "x";
+    }
+
+    function tampilkanPrediksi() {
+      const prediksiBaru = generateRandomPrediction();
+      const angka = document.getElementById("prediksi");
+
+      angka.style.opacity = "0";
+      setTimeout(() => {
+        angka.innerText = prediksiBaru;
+        angka.style.opacity = "1";
+      }, 300);
+
+      const jamSekarang = new Date();
+      const jamTeks = jamSekarang.toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.getElementById("jam").innerText = "Waktu: " + jamTeks;
+
+      const nilaiAcak = Math.floor(Math.random() * 40000) + 6000;
+      document.getElementById("rekomendasi").innerHTML =
+        `🔁 Pasang Di: ${nilaiAcak.toLocaleString()}<br>⏱️ Jam Terbang: ${jamTeks}`;
+
+      const menitAcak = Math.floor(Math.random() * 8) + 3;
+      const msAcak = menitAcak * 60 * 1000;
+
+      console.log("Update berikutnya dalam", menitAcak, "menit");
+
+      if (window.prediksiTimer) clearTimeout(window.prediksiTimer);
+      window.prediksiTimer = setTimeout(tampilkanPrediksi, msAcak);
+    }
+
+    document.getElementById("btnUpdate").addEventListener("click", tampilkanPrediksi);
+    tampilkanPrediksi();
+  </script>
+</body>
+</html>
